@@ -17,6 +17,7 @@ export default function AlertsPaged() {
   const [meta, setMeta] = useState({});
   const [categories, setCategories] = useState([]);
   const [selectedAlert, setSelectedAlert] = useState(null);
+  const [updatting, setUpdatting] = useState(false);
   const fetchLock = useRef(false);
   const fetchData = async () => {
     const { page, machine } = params;
@@ -69,10 +70,12 @@ export default function AlertsPaged() {
 
   const handleUpdateAlert = async (updatedFields) => {
     if (!selectedAlert) return;
+    setUpdatting(true);
     const updatedAlert = { ...selectedAlert, ...updatedFields, read: true };
     const res = await updateAlertDetails(selectedAlert.id, updatedFields);
+    setUpdatting(false);
     if (res.success) {
-      toast.success("Updated");
+      toast.success("Update successful");
       setAlerts((prev) =>
         prev.map((a) => (a.id === selectedAlert.id ? updatedAlert : a))
       );
@@ -98,7 +101,7 @@ export default function AlertsPaged() {
         applyFilter={applyFilter}
         currentFilter={params.machine}
       />
-      <AlertDetail alert={selectedAlert} onUpdateAlert={handleUpdateAlert} />
+      <AlertDetail alert={selectedAlert} onUpdateAlert={handleUpdateAlert} updatting={updatting} />
     </div>
   );
 }

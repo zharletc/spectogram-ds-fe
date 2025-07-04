@@ -22,7 +22,7 @@ export default function SpectrogramView({ audioUrl }) {
           container: containerRef.current,
           labels: true,
           fftSamples: 512,
-          frequencyMax: 8000, // ✅ Max 8Khz
+          frequencyMax: 8000,
         }),
       ],
     });

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import SpectrogramPlugin from "wavesurfer.js/dist/plugins/spectrogram.js";
 
@@ -6,11 +6,13 @@ export default function WaveformPlayer2({ audioId }) {
   const waveformRef = useRef(null);
   const spectrogramRef = useRef(null);
   const wavesurferRef = useRef(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const audioElement = document.getElementById(audioId);
-    if (!audioElement || !waveformRef.current || !spectrogramRef.current) return;
-
+    if (!audioElement || !waveformRef.current || !spectrogramRef.current)
+      return;
+    setLoading(true);
     const wavesurfer = WaveSurfer.create({
       container: waveformRef.current,
       waveColor: "#ccc",
@@ -31,6 +33,9 @@ export default function WaveformPlayer2({ audioId }) {
       ],
     });
 
+    wavesurfer.on("ready", () => {
+      setLoading(false);
+    });
     wavesurferRef.current = wavesurfer;
 
     return () => {
@@ -58,9 +63,13 @@ export default function WaveformPlayer2({ audioId }) {
           <div ref={waveformRef} />
         </div>
       </div>
-
-      {/* Spectrogram */}
       <div ref={spectrogramRef} className="mb-2 bg-gray-100 rounded" />
+      {loading && (
+        <div className="flex items-center gap-2 text-gray-600 mb-2 text-sm">
+          <span className="animate-spin w-4 h-4 border-2 border-t-transparent rounded-full" />
+          Loading waveform...
+        </div>
+      )}
     </div>
   );
 }
