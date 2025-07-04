@@ -92,13 +92,16 @@ export default function AlertDetail({ updatting, alert, onUpdateAlert }) {
             className="w-full border px-2 py-1 rounded"
           >
             <option value="" disabled hidden>
-              Select action
+              Select reason
             </option>
             <option value="Unknown Anomaly">Unknown Anomaly</option>
-            <option value="High Frequency Vibration">
-              High Frequency Vibration
+            <option value="Spindle Error">
+              Spindle Error
             </option>
-            <option value="Temperature Spike">Temperature Spike</option>
+            <option value="Axis Problem">Axis Problem</option>
+            <option value="Normal">Normal</option>
+            <option value="Machine Crash">Machine Crash</option>
+            <option value="Router Fault">Router Fault</option>
           </select>
         </div>
         <div>
@@ -112,8 +115,9 @@ export default function AlertDetail({ updatting, alert, onUpdateAlert }) {
             <option value="" disabled hidden>
               Select action
             </option>
-            <option value="Schedule Maintenance">Schedule Maintenance</option>
-            <option value="Ignore">Ignore</option>
+            <option value="Immediate">Immediate</option>
+            <option value="Later">Later</option>
+            <option value="No Action">No Action</option>
           </select>
         </div>
         <div>
